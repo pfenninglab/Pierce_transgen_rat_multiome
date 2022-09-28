@@ -1,3 +1,6 @@
+data/
+*.gz
+
 # History files
 *.html
 *_out.txt

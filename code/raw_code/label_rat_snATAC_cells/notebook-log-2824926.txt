@@ -1,0 +1,18 @@
+
+Copy/Paste this in your local terminal to ssh tunnel with remote
+-----------------------------------------------------------------
+ssh -N -L 8373:10.1.121.210:8373 mfranusi@lanec1.compbio.cs.cmu.edu
+-----------------------------------------------------------------
+
+Then open a browser on your local machine to the following address
+------------------------------------------------------------------
+localhost:8373  (prefix w/ https:// if using password)
+------------------------------------------------------------------
+
+Memory requested for job is 45GB.
+[W 15:50:17.712 NotebookApp] All authentication is disabled.  Anyone who can connect to this server will be able to run code.
+[I 15:50:17.714 NotebookApp] Serving notebooks from local directory: /projects/pfenninggroup/singleCell/Macaque_SealDorsalHorn_snATAC-seq/code/raw_code/label_macaque_snATAC_cells
+[I 15:50:17.714 NotebookApp] Jupyter Notebook 6.1.4 is running at:
+[I 15:50:17.714 NotebookApp] http://10.1.121.210:8373/
+[I 15:50:17.714 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+slurmstepd: error: *** JOB 2824926 ON compute-1-39 CANCELLED AT 2022-08-10T10:41:55 ***

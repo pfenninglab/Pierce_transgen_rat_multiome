@@ -1,0 +1,688 @@
+
+           ___      .______        ______  __    __  .______      
+          /   \     |   _  \      /      ||  |  |  | |   _  \     
+         /  ^  \    |  |_)  |    |  ,----'|  |__|  | |  |_)  |    
+        /  /_\  \   |      /     |  |     |   __   | |      /     
+       /  _____  \  |  |\  \\___ |  `----.|  |  |  | |  |\  \\___.
+      /__/     \__\ | _| `._____| \______||__|  |__| | _| `._____|
+    
+Logging With ArchR!
+
+Start Time : 2022-11-08 13:53:42
+
+------- ArchR Info
+
+ArchRThreads = 4
+
+------- System Info
+
+Computer OS = unix
+Total Cores = 32
+
+------- Session Info
+
+R version 4.1.3 (2022-03-10)
+Platform: x86_64-conda-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /home/yixiaoz/anaconda3/envs/ArchR_Env/lib/libopenblasp-r0.3.21.so
+
+Random number generation:
+ RNG:     L'Ecuyer-CMRG 
+ Normal:  Inversion 
+ Sample:  Rejection 
+ 
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+ [1] parallel  stats4    grid      stats     graphics  grDevices utils    
+ [8] datasets  methods   base     
+
+other attached packages:
+ [1] hexbin_1.28.2               harmony_0.1.0              
+ [3] uwot_0.1.14                 nabor_0.5.0                
+ [5] sp_1.5-0                    SeuratObject_4.1.2         
+ [7] Seurat_4.2.0                rhdf5_2.38.1               
+ [9] SummarizedExperiment_1.24.0 Biobase_2.54.0             
+[11] MatrixGenerics_1.6.0        Rcpp_1.0.9                 
+[13] Matrix_1.5-1                GenomicRanges_1.46.1       
+[15] GenomeInfoDb_1.30.1         IRanges_2.28.0             
+[17] S4Vectors_0.32.4            BiocGenerics_0.40.0        
+[19] matrixStats_0.62.0          data.table_1.14.2          
+[21] stringr_1.4.1               plyr_1.8.7                 
+[23] magrittr_2.0.3              ggplot2_3.3.6              
+[25] gtable_0.3.1                gtools_3.9.3               
+[27] gridExtra_2.3               ArchR_1.0.2                
+
+loaded via a namespace (and not attached):
+  [1] uuid_1.1-0             igraph_1.3.5           repr_1.1.4            
+  [4] lazyeval_0.2.2         splines_4.1.3          listenv_0.8.0         
+  [7] scattermore_0.8        digest_0.6.29          htmltools_0.5.3       
+ [10] fansi_1.0.3            tensor_1.5             cluster_2.1.4         
+ [13] ROCR_1.0-11            globals_0.16.1         spatstat.sparse_2.1-1 
+ [16] colorspace_2.0-3       ggrepel_0.9.1          dplyr_1.0.10          
+ [19] crayon_1.5.2           RCurl_1.98-1.8         jsonlite_1.8.2        
+ [22] progressr_0.11.0       spatstat.data_2.2-0    survival_3.4-0        
+ [25] zoo_1.8-11             glue_1.6.2             polyclip_1.10-0       
+ [28] zlibbioc_1.40.0        XVector_0.34.0         leiden_0.4.3          
+ [31] DelayedArray_0.20.0    Rhdf5lib_1.16.0        future.apply_1.9.1    
+ [34] abind_1.4-5            scales_1.2.1           DBI_1.1.3             
+ [37] spatstat.random_2.2-0  miniUI_0.1.1.1         viridisLite_0.4.1     
+ [40] xtable_1.8-4           reticulate_1.26        spatstat.core_2.4-4   
+ [43] htmlwidgets_1.5.4      httr_1.4.4             RColorBrewer_1.1-3    
+ [46] ellipsis_0.3.2         ica_1.0-3              pkgconfig_2.0.3       
+ [49] farver_2.1.1           deldir_1.0-6           utf8_1.2.2            
+ [52] tidyselect_1.1.2       labeling_0.4.2         rlang_1.0.6           
+ [55] reshape2_1.4.4         later_1.3.0            munsell_0.5.0         
+ [58] tools_4.1.3            cli_3.4.1              generics_0.1.3        
+ [61] ggridges_0.5.4         evaluate_0.16          fastmap_1.1.0         
+ [64] goftest_1.2-3          fitdistrplus_1.1-8     purrr_0.3.4           
+ [67] RANN_2.6.1             pbapply_1.5-0          future_1.28.0         
+ [70] nlme_3.1-159           mime_0.12              compiler_4.1.3        
+ [73] plotly_4.10.0          png_0.1-7              spatstat.utils_2.3-1  
+ [76] tibble_3.1.8           stringi_1.7.8          rgeos_0.5-9           
+ [79] lattice_0.20-45        IRdisplay_1.1          vctrs_0.4.2           
+ [82] pillar_1.8.1           lifecycle_1.0.2        rhdf5filters_1.6.0    
+ [85] spatstat.geom_2.4-0    lmtest_0.9-40          RcppAnnoy_0.0.19      
+ [88] cowplot_1.1.1          bitops_1.0-7           irlba_2.3.5           
+ [91] httpuv_1.6.6           patchwork_1.1.2        R6_2.5.1              
+ [94] promises_1.2.0.1       KernSmooth_2.23-20     parallelly_1.32.1     
+ [97] codetools_0.2-18       MASS_7.3-58.1          assertthat_0.2.1      
+[100] withr_2.5.0            sctransform_0.3.5      GenomeInfoDbData_1.2.7
+[103] mgcv_1.8-40            rpart_4.1.16           IRkernel_1.3          
+[106] tidyr_1.2.1            Rtsne_0.16             pbdZMQ_0.3-7          
+[109] shiny_1.7.2            base64enc_0.1-3       
+
+
+------- Log Info
+
+
+2022-11-08 13:53:42 : Input-Parameters, Class = list
+
+Input-Parameters$ArchRProj: length = 1
+
+Input-Parameters$embedding: length = 1
+[1] "UMAPH200_ATAC"
+
+
+Input-Parameters$colorBy: length = 1
+[1] "GeneScoreMatrix"
+
+
+Input-Parameters$name: length = 6
+[1] "Gad1"   "Lhx6"   "Aqp4"   "Cx3cl1" "Pdgfra" "Aspa"  
+
+
+Input-Parameters$log2Norm: length = 0
+NULL
+
+
+Input-Parameters$pal: length = 0
+NULL
+
+
+Input-Parameters$size: length = 1
+[1] 0.1
+
+
+Input-Parameters$sampleCells: length = 0
+NULL
+
+
+Input-Parameters$highlightCells: length = 0
+NULL
+
+
+Input-Parameters$rastr: length = 1
+[1] TRUE
+
+
+Input-Parameters$quantCut: length = 2
+[1] 0.01 0.99
+
+
+Input-Parameters$discreteSet: length = 0
+NULL
+
+
+Input-Parameters$continuousSet: length = 0
+NULL
+
+
+Input-Parameters$randomize: length = 1
+[1] TRUE
+
+
+Input-Parameters$keepAxis: length = 1
+[1] FALSE
+
+
+Input-Parameters$baseSize: length = 1
+[1] 10
+
+
+Input-Parameters$plotAs: length = 0
+NULL
+
+
+Input-Parameters$threads: length = 1
+[1] 4
+
+
+Input-Parameters$logFile: length = 1
+[1] "ArchRLogs/ArchR-plotEmbedding-186882552c43-Date-2022-11-08_Time-13-53-42.log"
+
+
+
+2022-11-08 13:53:42 : 
+
+2022-11-08 13:53:42 : Embedding data.frame, Class = data.frame
+Embedding data.frame: nRows = 43786, nCols = 2
+                      HarmonyI200_ATAC#UMAP_Dimension_1
+1S#AGAAGGTGTTGTTCAC-1                         0.2894728
+1S#AAGCCTGTCTTAGGGT-1                         0.6191126
+1S#TAATGGTGTCATGCAA-1                         0.4586642
+1S#ACTTGAATCGGTTCCT-1                         0.5526383
+1S#GGCTTCAAGCAAACCT-1                         0.2893373
+1S#TAGGCTTAGGAGCATA-1                         0.6054154
+                      HarmonyI200_ATAC#UMAP_Dimension_2
+1S#AGAAGGTGTTGTTCAC-1                          4.942866
+1S#AAGCCTGTCTTAGGGT-1                          5.083348
+1S#TAATGGTGTCATGCAA-1                          5.068356
+1S#ACTTGAATCGGTTCCT-1                         -1.828646
+1S#GGCTTCAAGCAAACCT-1                          5.020706
+1S#TAGGCTTAGGAGCATA-1                          4.837004
+
+
+
+2022-11-08 13:53:43 : 
+
+2022-11-08 13:53:43 : 
+
+2022-11-08 13:53:43 : FeatureDF, Class = DFrame
+DataFrame with 30216 rows and 6 columns
+      seqnames     start       end  strand          name     idx
+         <Rle>   <array>   <array> <array>       <array> <array>
+1         chr1   5453244   5058285       2          Grm1       1
+2         chr1   5125443   5134635       1 4930567K20Rik       2
+3         chr1   5528789   5604683       1         Shprh       3
+4         chr1   5655332   5673080       1        Fbxo30       4
+5         chr1   5727085   5845012       1         Epm2a       5
+...        ...       ...       ...     ...           ...     ...
+30212     chrX 146591699 146590467       2 4933436I01Rik     978
+30213     chrX 147240076 147222059       2        Fmr1os     979
+30214     chrX 147240215 147278057       1          Fmr1     980
+30215     chrX 147309637 147332423       1        Fmr1nb     981
+30216     chrX 147420586 147419922       2        Gm6812     982
+
+
+2022-11-08 13:53:43 : idx, Class = integer
+
+idx: length = 6
+[1] 17563 17291 12432 13289  9072  5138
+
+
+
+2022-11-08 13:53:43 : FeatureDF-Subset, Class = DFrame
+DataFrame with 6 rows and 6 columns
+  seqnames    start      end  strand    name     idx
+     <Rle>  <array>  <array> <array> <array> <array>
+1     chr3 55369271 55410335       1    Gad1     636
+2     chr3 19456746 19432440       2    Lhx6     364
+3    chr18  6531390  6507800       2    Aqp4      14
+4    chr19 10236904 10227337       2  Cx3cl1      47
+5    chr14 33055265 33005838       2  Pdgfra     322
+6    chr10 57942539 57920086       2    Aspa    1059
+
+
+2022-11-08 13:54:06 : Feature-Matrix, Class = dgCMatrix
+Feature-Matrix: nRows = 6, nCols = 43786
+Feature-Matrix: NonZeroEntries = 94252, EntryRange = [ 0.021 , 13.614 ]
+5 x 5 sparse Matrix of class "dgCMatrix"
+     1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1
+[1,]                 0.287                 0.256                 0.332
+[2,]                 0.447                 0.111                 .    
+[3,]                 0.144                 0.099                 0.330
+[4,]                 0.583                 0.114                 .    
+[5,]                 0.690                 0.279                 0.532
+     1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1
+[1,]                 0.214                 0.438
+[2,]                 0.111                 0.596
+[3,]                 0.519                 0.241
+[4,]                 0.578                 0.707
+[5,]                 0.138                 0.175
+
+
+
+2022-11-08 13:54:06 : colorMat-Before-Impute, Class = matrix
+ 
+2022-11-08 13:54:06 : colorMat-Before-Impute, Class = array
+       1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1
+Gad1                   0.287                 0.256                 0.332
+Lhx6                   0.447                 0.111                 0.000
+Aqp4                   0.144                 0.099                 0.330
+Cx3cl1                 0.583                 0.114                 0.000
+Pdgfra                 0.690                 0.279                 0.532
+       1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1
+Gad1                   0.214                 0.438
+Lhx6                   0.111                 0.596
+Aqp4                   0.519                 0.241
+Cx3cl1                 0.578                 0.707
+Pdgfra                 0.138                 0.175
+
+colorMat-Before-Impute: nRows = 6, nCols = 43786
+
+
+2022-11-08 13:54:06 : imputeMatrix Input-Parameters, Class = list
+
+imputeMatrix Input-Parameters$mat: nRows = 6, nCols = 43786
+       1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1
+Gad1                   0.287                 0.256                 0.332
+Lhx6                   0.447                 0.111                 0.000
+Aqp4                   0.144                 0.099                 0.330
+Cx3cl1                 0.583                 0.114                 0.000
+Pdgfra                 0.690                 0.279                 0.532
+       1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1
+Gad1                   0.214                 0.438
+Lhx6                   0.111                 0.596
+Aqp4                   0.519                 0.241
+Cx3cl1                 0.578                 0.707
+Pdgfra                 0.138                 0.175
+
+
+imputeMatrix Input-Parameters$threads: length = 1
+[1] 4
+
+
+imputeMatrix Input-Parameters$verbose: length = 1
+[1] FALSE
+
+
+imputeMatrix Input-Parameters$logFile: length = 1
+[1] "ArchRLogs/ArchR-plotEmbedding-186882552c43-Date-2022-11-08_Time-13-53-42.log"
+
+
+
+2022-11-08 13:54:06 : mat, Class = matrix
+ 
+2022-11-08 13:54:06 : mat, Class = array
+       1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1
+Gad1                   0.287                 0.256                 0.332
+Lhx6                   0.447                 0.111                 0.000
+Aqp4                   0.144                 0.099                 0.330
+Cx3cl1                 0.583                 0.114                 0.000
+Pdgfra                 0.690                 0.279                 0.532
+       1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1
+Gad1                   0.214                 0.438
+Lhx6                   0.111                 0.596
+Aqp4                   0.519                 0.241
+Cx3cl1                 0.578                 0.707
+Pdgfra                 0.138                 0.175
+
+mat: nRows = 6, nCols = 43786
+
+
+2022-11-08 13:54:06 : weightList, Class = SimpleList
+
+weightList$w1: length = 1
+[1] "/projects/pfenninggroup/singleCell/Pierce_transgen_rat_multiome/data/tidy_data/ArchRProjects/Rat_Transgen_NAc_scATAC/ImputeWeights/Impute-Weights-Rep-1"
+
+
+weightList$w2: length = 1
+[1] "/projects/pfenninggroup/singleCell/Pierce_transgen_rat_multiome/data/tidy_data/ArchRProjects/Rat_Transgen_NAc_scATAC/ImputeWeights/Impute-Weights-Rep-2"
+
+
+2022-11-08 13:54:06 : Imputing Matrix (1 of 2), 0 mins elapsed.
+
+2022-11-08 13:54:06 : 
+
+2022-11-08 13:54:06 : 
+
+2022-11-08 13:54:06 : 
+
+2022-11-08 13:54:06 : 
+
+2022-11-08 13:54:07 : 
+
+2022-11-08 13:54:12 : 
+
+2022-11-08 13:54:12 : 
+
+2022-11-08 13:54:12 : 
+
+2022-11-08 13:54:12 : 
+
+2022-11-08 13:54:17 : 
+2022-11-08 13:54:18 : Imputing Matrix (2 of 2), 0.202 mins elapsed.
+
+2022-11-08 13:54:18 : 
+
+2022-11-08 13:54:18 : 
+
+2022-11-08 13:54:19 : 
+
+2022-11-08 13:54:19 : 
+
+2022-11-08 13:54:19 : 
+
+2022-11-08 13:54:23 : 
+
+2022-11-08 13:54:23 : 
+
+2022-11-08 13:54:23 : 
+
+2022-11-08 13:54:23 : 
+
+2022-11-08 13:54:26 : 
+2022-11-08 13:54:57 : Finished Imputing Matrix, 0.845 mins elapsed.
+
+2022-11-08 13:54:57 : colorMat-After-Impute, Class = matrix
+ 
+2022-11-08 13:54:57 : colorMat-After-Impute, Class = array
+       1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1
+Gad1               0.4963449             0.5033322             0.5246174
+Lhx6               0.3458684             0.3274916             0.3212200
+Aqp4               0.1782335             0.2039195             0.2112999
+Cx3cl1             0.4248050             0.4371445             0.4366172
+Pdgfra             0.3730156             0.3837269             0.3693875
+       1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1
+Gad1               0.6270773             0.4927106
+Lhx6               0.2337368             0.3298903
+Aqp4               0.1587567             0.1891519
+Cx3cl1             0.5643382             0.4489751
+Pdgfra             0.2686494             0.3794380
+
+colorMat-After-Impute: nRows = 6, nCols = 43786
+
+
+2022-11-08 13:54:57 : ColorParams 1, Class = list
+
+ColorParams 1$color: length = 43786
+1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1 
+            0.4963449             0.5033322             0.5246174 
+1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1 1S#TAGGCTTAGGAGCATA-1 
+            0.6270773             0.4927106             0.5110739 
+
+
+ColorParams 1$discrete: length = 1
+[1] FALSE
+
+
+ColorParams 1$title: length = 1
+[1] "UMAPH200_ATAC of HarmonyI200_ATAC colored by\nGeneScoreMatrix : Gad1"
+
+
+ColorParams 1$continuousSet: length = 1
+[1] "horizonExtra"
+
+
+
+2022-11-08 13:54:57 : PlotParams-1, Class = list
+
+PlotParams-1$color: length = 43786
+1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1 
+            0.5814428             0.5881639             0.6084472 
+1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1 1S#TAGGCTTAGGAGCATA-1 
+            0.7022828             0.5779345             0.5955742 
+
+
+PlotParams-1$title: length = 1
+[1] "UMAPH200_ATAC of HarmonyI200_ATAC colored by\nGeneScoreMatrix : Gad1"
+
+
+PlotParams-1$x: length = 43786
+[1] 0.2894728 0.6191126 0.4586642 0.5526383 0.2893373 0.6054154
+
+
+PlotParams-1$y: length = 43786
+[1]  4.942866  5.083348  5.068356 -1.828646  5.020706  4.837004
+
+
+PlotParams-1$baseSize: length = 1
+[1] 10
+
+
+PlotParams-1$xlabel: length = 1
+[1] "UMAP Dimension 1"
+
+
+PlotParams-1$ylabel: length = 1
+[1] "UMAP Dimension 2"
+
+
+PlotParams-1$pal: length = 256
+[1] "#000436" "#000439" "#00053D" "#000640" "#000744" "#000848"
+
+
+PlotParams-1$colorTitle: length = 1
+[1] "Log2(NormCounts + 1)"
+
+
+
+2022-11-08 13:54:57 : PlotParams-2, Class = list
+
+PlotParams-2$color: length = 43786
+1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1 
+            0.4285373             0.4087028             0.4018708 
+1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1 1S#TAGGCTTAGGAGCATA-1 
+            0.3030347             0.4113072             0.4086346 
+
+
+PlotParams-2$title: length = 1
+[1] "UMAPH200_ATAC of HarmonyI200_ATAC colored by\nGeneScoreMatrix : Lhx6"
+
+
+PlotParams-2$x: length = 43786
+[1] 0.2894728 0.6191126 0.4586642 0.5526383 0.2893373 0.6054154
+
+
+PlotParams-2$y: length = 43786
+[1]  4.942866  5.083348  5.068356 -1.828646  5.020706  4.837004
+
+
+PlotParams-2$baseSize: length = 1
+[1] 10
+
+
+PlotParams-2$xlabel: length = 1
+[1] "UMAP Dimension 1"
+
+
+PlotParams-2$ylabel: length = 1
+[1] "UMAP Dimension 2"
+
+
+PlotParams-2$pal: length = 256
+[1] "#000436" "#000439" "#00053D" "#000640" "#000744" "#000848"
+
+
+PlotParams-2$colorTitle: length = 1
+[1] "Log2(NormCounts + 1)"
+
+
+
+2022-11-08 13:54:59 : PlotParams-3, Class = list
+
+PlotParams-3$color: length = 43786
+1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1 
+            0.2366255             0.2677390             0.2765561 
+1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1 1S#TAGGCTTAGGAGCATA-1 
+            0.2125776             0.2499330             0.2824475 
+
+
+PlotParams-3$title: length = 1
+[1] "UMAPH200_ATAC of HarmonyI200_ATAC colored by\nGeneScoreMatrix : Aqp4"
+
+
+PlotParams-3$x: length = 43786
+[1] 0.2894728 0.6191126 0.4586642 0.5526383 0.2893373 0.6054154
+
+
+PlotParams-3$y: length = 43786
+[1]  4.942866  5.083348  5.068356 -1.828646  5.020706  4.837004
+
+
+PlotParams-3$baseSize: length = 1
+[1] 10
+
+
+PlotParams-3$xlabel: length = 1
+[1] "UMAP Dimension 1"
+
+
+PlotParams-3$ylabel: length = 1
+[1] "UMAP Dimension 2"
+
+
+PlotParams-3$pal: length = 256
+[1] "#000436" "#000439" "#00053D" "#000640" "#000744" "#000848"
+
+
+PlotParams-3$colorTitle: length = 1
+[1] "Log2(NormCounts + 1)"
+
+
+
+2022-11-08 13:54:59 : PlotParams-4, Class = list
+
+PlotParams-4$color: length = 43786
+1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1 
+            0.5107645             0.5232051             0.5226757 
+1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1 1S#TAGGCTTAGGAGCATA-1 
+            0.6455525             0.5350328             0.5432804 
+
+
+PlotParams-4$title: length = 1
+[1] "UMAPH200_ATAC of HarmonyI200_ATAC colored by\nGeneScoreMatrix : Cx3cl1"
+
+
+PlotParams-4$x: length = 43786
+[1] 0.2894728 0.6191126 0.4586642 0.5526383 0.2893373 0.6054154
+
+
+PlotParams-4$y: length = 43786
+[1]  4.942866  5.083348  5.068356 -1.828646  5.020706  4.837004
+
+
+PlotParams-4$baseSize: length = 1
+[1] 10
+
+
+PlotParams-4$xlabel: length = 1
+[1] "UMAP Dimension 1"
+
+
+PlotParams-4$ylabel: length = 1
+[1] "UMAP Dimension 2"
+
+
+PlotParams-4$pal: length = 256
+[1] "#000436" "#000439" "#00053D" "#000640" "#000744" "#000848"
+
+
+PlotParams-4$colorTitle: length = 1
+[1] "Log2(NormCounts + 1)"
+
+
+
+2022-11-08 13:55:00 : PlotParams-5, Class = list
+
+PlotParams-5$color: length = 43786
+1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1 
+            0.4573480             0.4685592             0.4535308 
+1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1 1S#TAGGCTTAGGAGCATA-1 
+            0.3432934             0.4640806             0.4421896 
+
+
+PlotParams-5$title: length = 1
+[1] "UMAPH200_ATAC of HarmonyI200_ATAC colored by\nGeneScoreMatrix : Pdgfra"
+
+
+PlotParams-5$x: length = 43786
+[1] 0.2894728 0.6191126 0.4586642 0.5526383 0.2893373 0.6054154
+
+
+PlotParams-5$y: length = 43786
+[1]  4.942866  5.083348  5.068356 -1.828646  5.020706  4.837004
+
+
+PlotParams-5$baseSize: length = 1
+[1] 10
+
+
+PlotParams-5$xlabel: length = 1
+[1] "UMAP Dimension 1"
+
+
+PlotParams-5$ylabel: length = 1
+[1] "UMAP Dimension 2"
+
+
+PlotParams-5$pal: length = 256
+[1] "#000436" "#000439" "#00053D" "#000640" "#000744" "#000848"
+
+
+PlotParams-5$colorTitle: length = 1
+[1] "Log2(NormCounts + 1)"
+
+
+
+2022-11-08 13:55:00 : PlotParams-6, Class = list
+
+PlotParams-6$color: length = 43786
+1S#AGAAGGTGTTGTTCAC-1 1S#AAGCCTGTCTTAGGGT-1 1S#TAATGGTGTCATGCAA-1 
+           0.10879080            0.10602018            0.12654282 
+1S#ACTTGAATCGGTTCCT-1 1S#GGCTTCAAGCAAACCT-1 1S#TAGGCTTAGGAGCATA-1 
+           0.09096707            0.11549723            0.11757617 
+
+
+PlotParams-6$title: length = 1
+[1] "UMAPH200_ATAC of HarmonyI200_ATAC colored by\nGeneScoreMatrix : Aspa"
+
+
+PlotParams-6$x: length = 43786
+[1] 0.2894728 0.6191126 0.4586642 0.5526383 0.2893373 0.6054154
+
+
+PlotParams-6$y: length = 43786
+[1]  4.942866  5.083348  5.068356 -1.828646  5.020706  4.837004
+
+
+PlotParams-6$baseSize: length = 1
+[1] 10
+
+
+PlotParams-6$xlabel: length = 1
+[1] "UMAP Dimension 1"
+
+
+PlotParams-6$ylabel: length = 1
+[1] "UMAP Dimension 2"
+
+
+PlotParams-6$pal: length = 256
+[1] "#000436" "#000439" "#00053D" "#000640" "#000744" "#000848"
+
+
+PlotParams-6$colorTitle: length = 1
+[1] "Log2(NormCounts + 1)"
+
+
+
+------- Completed
+
+End Time : 2022-11-08 13:55:00
+Elapsed Time Minutes = 1.31592257817586
+Elapsed Time Hours = 0.0219320940309101
+
+-------
+
+
+

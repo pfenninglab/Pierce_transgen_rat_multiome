@@ -32,14 +32,9 @@ proj = ArchRProject(
 proj = filterDoublets( proj, cutEnrich = .5, cutScore = -Inf, filterRatio = 1)
 
 ## increase unique fragments cutoff to 10^3.5, remove cluster of low QC cell 
-idxSample <- BiocGenerics::which(proj$nFrags > 10^3.5)
+idxSample <- BiocGenerics::which(proj$nFrags > 10^3.6)
 cellsSample <- proj$cellNames[idxSample]
 proj = subsetCells(ArchRProj = proj, cellNames = cellsSample)
-
-# ## initial TSSEnrichment cutoff was 2, this looks fine to target likely cells
-# idxSample2 <- BiocGenerics::which(proj$TSSEnrichment > 8 )
-# cellsSample2 <- proj$cellNames[idxSample2]
-# proj = subsetCells(ArchRProj = proj, cellNames = cellsSample2)
 
 ## Re-create the metadata from sample names
 pd = data.frame(cellNames = getCellNames(proj)) %>% 
@@ -63,3 +58,4 @@ table(proj$Sample, proj$Sire)
 
 ## save project
 proj = saveArchRProject(proj)
+

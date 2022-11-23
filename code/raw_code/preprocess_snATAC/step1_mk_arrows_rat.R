@@ -4,7 +4,6 @@ library(tidyverse)
 library(parallel)
 
 ss <- function(x, pattern, slot = 1, ...) { sapply(strsplit(x = x, split = pattern, ...), '[', slot) }
-TMPDIR='/scratch/bnphan'
 
 ###############################################
 ### get the fragments file from snATAC-seq ####

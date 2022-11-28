@@ -1,5 +1,7 @@
-data/
+/data
 *.gz
+*.log
+.ipynb_checkpoints
 
 # History files
 *.html

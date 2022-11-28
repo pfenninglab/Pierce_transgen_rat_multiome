@@ -59,3 +59,76 @@ table(proj$Sample, proj$Sire)
 ## save project
 proj = saveArchRProject(proj)
 
+
+#################################
+# do iterative LSI clustering 
+varFeat = 200
+pd = getCellColData(proj)
+dimRed = names(attributes(proj)$reducedDims)
+embedNames = names(attributes(proj)$embeddings)
+
+iterLSIName = paste0("IterativeLSI",varFeat,'_ATAC')
+print(iterLSIName)
+if (iterLSIName %ni% dimRed){
+  pdf()
+  proj <- addIterativeLSI( proj, useMatrix = "TileMatrix", 
+                           name = iterLSIName,
+                           LSIMethod = 2, 
+                           iterations = 4, # increase this if noticing subtle batch effects
+                           scaleTo = 20000, # median unique fragment per cell
+                           selectionMethod = 'var',
+                           clusterParams = list( # See Seurat::FindClusters
+                             resolution = c(.2, .5, .7, 1), # lower this if noticing subtle batch effects
+                             sampleCells = 10000,  n.start = 10), 
+                           varFeatures = varFeat * 1000, # also can reduce this if noticing subtle batch effects
+                           dimsToUse = 1:30, force = FALSE)
+  dev.off()
+  proj = saveArchRProject(ArchRProj = proj)}
+
+
+UMAPName = paste0("UMAPI",varFeat,'_ATAC')
+if (UMAPName %ni% embedNames){
+  print(UMAPName)
+  proj <- addUMAP(proj, reducedDims = iterLSIName, 
+                  name = UMAPName, nNeighbors = 30, minDist = 0.5, 
+                  metric = "cosine", force = F)}
+
+
+# add clusters
+ClustersName = paste0("ClustersI",varFeat,'_ATAC')
+if (ClustersName %ni% names(pd)){
+  print(ClustersName)
+  proj <- addClusters(proj, reducedDims = iterLSIName, method = "Seurat", 
+                      algorithm = 2,
+                      filterBias = TRUE, name = ClustersName, resolution = 1, force = T)
+}
+
+# add Harmony batch correction
+HarmonyName = paste0("HarmonyI",varFeat,'_ATAC')
+if (HarmonyName %ni% dimRed ){
+  print(HarmonyName)
+  proj <- addHarmony(proj, reducedDims = iterLSIName, 
+                     max.iter.harmony = 15, name = HarmonyName, 
+                     groupBy = c('Sample','Sire'), force = T)}
+
+
+# add umap
+UMAPName2 = paste0("UMAPH",varFeat,'_ATAC')
+if (UMAPName2 %ni% embedNames){
+  print(UMAPName2)
+  proj <- addUMAP(proj, reducedDims = HarmonyName, 
+                  name = UMAPName2, nNeighbors = 30, minDist = 0.5, 
+                  metric = "cosine", force = F)}
+
+
+# add clusters
+ClustersName2 = paste0("ClustersH",varFeat,'_ATAC')
+if (ClustersName2 %ni% names(pd)){
+  print(ClustersName2)
+  proj <- addClusters(proj, reducedDims = HarmonyName, method = "Seurat", 
+                      algorithm = 2, 
+                      name = ClustersName2, resolution = 1, force = T)}
+
+proj = addImputeWeights(proj, reducedDims = HarmonyName)
+proj = saveArchRProject(ArchRProj = proj)
+

@@ -1,4 +1,5 @@
-/data
+logs/
+data/
 *.gz
 *.log
 .ipynb_checkpoints

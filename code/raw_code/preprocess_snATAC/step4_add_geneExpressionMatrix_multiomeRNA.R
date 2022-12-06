@@ -36,12 +36,12 @@ if(! dir.exists(PROJDIR2)){
   proj = loadArchRProject(path = PROJDIR2)
 }
 
-# 66149 cells have both ATAC and RNA profiles
+# 13728 cells have both ATAC and RNA profiles
 table( proj$cellNames %in% colnames(sce))
 table( colnames(sce) %in% proj$cellNames )
 
 ## Add the raw multiomeRNA profiles 
-# Overlap Per Sample w/ scATAC : 1S=299,2M=3810,3C=4023,4S=3068,5M=3738
+# Overlap Per Sample w/ scATAC : 1S=362,2M=3529,3C=3699,4S=2713,5M=3425
 proj <- addGeneExpressionMatrix(input = proj, seRNA = sce, force = TRUE)
 proj <- proj[!is.na(proj$Gex_nUMI)]
 proj = saveArchRProject(ArchRProj = proj)
@@ -95,33 +95,35 @@ if (ClustersName2 %ni% names(pd)){
 }
 proj = saveArchRProject(ArchRProj = proj)
 
-## to do this later when there's an ATAC iterative LSI
 
-# ####################################################
-# ## add combined ATAC + RNA dimensionality reductions
-# proj <- addCombinedDims(proj, reducedDims = c("IterativeLSI_Peak60", iterLSIName), name =  "LSI_Combined")
-# 
-# # add Harmony batch correction
-# proj <- addHarmony(proj, reducedDims = 'LSI_Combined',
-#                    max.iter.harmony = 15, name = 'HarmonyI_Combined',
-#                    groupBy = c('Sample', 'Sire'), force = F)
-# 
-# # add umap
-# proj <- addUMAP(proj, reducedDims = 'HarmonyI_Combined',
-#                 name = 'UMAPH_Combined', nNeighbors = 30, minDist = 0.5,
-#                 metric = "cosine", force = F)
-# 
-# # add clusters
-# proj <- addClusters(proj, reducedDims = 'HarmonyI_Combined', method = "Seurat",
-#                     name = "ClustersH_Combined", resolution = 2, force = T)
-# 
-# proj = addImputeWeights(proj, reducedDims = "HarmonyI_Combined")
-# proj = saveArchRProject(ArchRProj = proj,)
-# 
-# 
+####################################################
+## add combined ATAC + RNA dimensionality reductions
+proj <- addCombinedDims(proj, reducedDims = c("HarmonyI200_ATAC", iterLSIName), name = "LSI_Combined")
+
+# add Harmony batch correction
+proj <- addHarmony(proj, reducedDims = 'LSI_Combined',
+                   max.iter.harmony = 15, name = 'HarmonyI_Combined',
+                   groupBy = c('Sample', 'Sire'), force = F)
+
+# add umap
+proj <- addUMAP(proj, reducedDims = 'HarmonyI_Combined',
+                name = 'UMAPH_Combined', nNeighbors = 30, minDist = 0.5,
+                metric = "cosine", force = F)
+
+# add clusters
+proj <- addClusters(proj, reducedDims = 'HarmonyI_Combined', method = "Seurat",
+                    name = "ClustersH_Combined", resolution = 2, force = T)
+
+proj = addImputeWeights(proj, reducedDims = "HarmonyI_Combined")
+proj = saveArchRProject(ArchRProj = proj,)
+
 # # add peak2gene links matrix
 # proj <- addPeak2GeneLinks( ArchRProj = proj,dimsToUse = 1:30,
 #                            reducedDims = "HarmonyI_Combined", useMatrix = 'GeneExpressionMatrix',
 #                            scaleDims = TRUE, corCutOff = 0.75, k = 100, knnIteration = 500,
 #                            overlapCutoff = 0.8,  maxDist = 1e+05, scaleTo = 10^4, log2Norm = TRUE)
-# proj = saveArchRProject(ArchRProj = proj)
+
+proj = saveArchRProject(ArchRProj = proj)
+
+
+

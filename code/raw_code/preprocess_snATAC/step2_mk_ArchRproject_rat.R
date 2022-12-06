@@ -7,7 +7,7 @@ ss <- function(x, pattern, slot = 1, ...) { sapply(strsplit(x = x, split = patte
 
 ########################################
 ## load genomeAnnotation, geneAnnotation
-addArchRThreads(threads = min(length(fragments_fn), round(parallel::detectCores()/4)))
+addArchRThreads(threads = 10)
 GENOMEDIR='/home/bnphan/resources/genomes/rn7'
 load(file.path(GENOMEDIR,'rn7_liftoff_mm10NcbiRefSeq_ArchR_annotations.rda'))
 

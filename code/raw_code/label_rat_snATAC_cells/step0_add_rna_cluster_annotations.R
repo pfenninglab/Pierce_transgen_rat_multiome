@@ -20,9 +20,9 @@ with(df_meta, table(cluster_rat, cluster_macaque))
 #####################################################
 ## 2) load the ATAC data to add the cell cluster types
 proj = here::here('data/tidy_data/ArchRProjects','Rat_Transgen_NAc_scATAC') %>% 
-  loadArchRProject(ARCHDIR)
+  loadArchRProject()
 
-proj2 = here::here('data/tidy_data/ArchRProjects','Rat_Transgen_NAc_multiome') %>% 
+proj2 = here::here('data/tidy_data/ArchRProjects','Rat_Transgen_NAc_multiome') %>%
   loadArchRProject()
 
 df_meta = df_meta[rownames(df_meta)%in% getCellNames(proj), ]
@@ -35,7 +35,7 @@ for(col in names(df_meta)){
                         name = col, cells = rownames(df_meta))
   
   ## for the multiome
-  proj2 = addCellColData(proj2, data = df_meta2[,col], force = TRUE, 
+  proj2 = addCellColData(proj2, data = df_meta2[,col], force = TRUE,
                         name = col, cells = rownames(df_meta2))
 }
 
@@ -43,25 +43,10 @@ for(col in names(df_meta)){
 table(proj$Sample, proj$cluster_macaque)
 table(proj$Sample, proj$cluster_rat)
 
-## save project
+table(proj2$Sample, proj2$cluster_macaque)
+table(proj2$Sample, proj2$cluster_rat)
+
+## save projects
 proj = saveArchRProject(proj)
+proj2 = saveArchRProject(proj2)
 
-
-
-#####################################################
-## 2) load the ATAC data to add the cell cluster types
-
-df_meta = df_meta[rownames(df_meta)%in% getCellNames(proj), ]
-
-## add the cell type labels to the ArchR project
-for(col in names(df_meta)){
-  proj = addCellColData(proj, data = df_meta[,col],
-                        name = col, cells = rownames(df_meta), force = TRUE)
-}
-
-## check the clusters
-table(proj$Sample, proj$cluster_macaque)
-table(proj$Sample, proj$cluster_rat)
-
-## save project
-proj = saveArchRProject(proj)

@@ -122,3 +122,10 @@ monkey_msn.combined.sct <- RunUMAP(monkey_msn.combined.sct, reduction = "pca", d
 ## save SCTransformed MSN counts matrix
 save_msn_h5 = here(DATADIR, 'rdas', 'GSE167920_Results_MSNs_processed_final_NAc.mmGenes.h5Seurat')
 SaveH5Seurat(monkey_msn.combined.sct, filename = save_msn_h5, overwrite = TRUE)
+
+save_msn_sce = here(DATADIR, 'rdas', 'GSE167920_Results_MSNs_processed_final_NAc.mmGenes.sce.rds')
+monkey_msn.sce = as.SingleCellExperiment(monkey_msn.combined.sct, assay = 'RNA')
+saveRDS(monkey_msn.sce, file = save_msn_sce)
+
+
+

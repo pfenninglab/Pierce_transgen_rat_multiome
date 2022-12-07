@@ -76,7 +76,7 @@ halmapper_script = '/home/bnphan/src/atac_data_pipeline/scripts/halper_map_peak_
 system('mkdir -p logs')
 sbatch = 'sbatch -p pfen1 -w compute-1-11 --mem 10G'
 SOURCE_SPECIES = 'Rattus_norvegicus'
-TARGET_SPECIES = c('Homo_sapiens')
+TARGET_SPECIES = c('Homo_sapiens,Mus_musculus,Macaca_mulatta')
 target_species = paste('-t', TARGET_SPECIES)
 source_species = paste('-s', SOURCE_SPECIES)
 outdir = paste('-o', here('data/raw_data', 'halper'))
@@ -89,23 +89,7 @@ thecall1 = paste(sbatch, halmapper_script, source_species,
                 outdir, rep(peak_files, times = length(target_species)),
                 halLiftover)
 
-# map to rat
-TARGET_SPECIES = c('Macaca_mulatta')
-target_species = paste('-t', TARGET_SPECIES)
-thecall2 = paste(sbatch, halmapper_script, source_species,
-                rep(target_species, each= length(peak_files)),
-                outdir, rep(peak_files, times = length(target_species)),
-                halLiftover)
-
-# map to mouse
-TARGET_SPECIES = c('Mus_musculus')
-target_species = paste('-t', TARGET_SPECIES)
-thecall3 = paste(sbatch, halmapper_script,  source_species,
-                rep(target_species, each= length(peak_files)),
-                outdir, rep(peak_files, times = length(target_species)),
-                halLiftover)
-cat(c(thecall1, thecall2, thecall3), 
-    file= here(CODEDIR,'step7_map_to_other_species.sh'), sep = '\n')
+cat(thecall1, file= here(CODEDIR,'step7_map_to_other_species.sh'), sep = '\n')
 system(paste('chmod u+x', here(CODEDIR, 'step7_map_to_other_species.sh')))
 system('./step7_map_to_other_species.sh')
 

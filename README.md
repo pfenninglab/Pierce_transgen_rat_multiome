@@ -1,7 +1,7 @@
 # Pierce_transgen_rat_multiome
 Pierce lab rat nucleus accumbens single cell multiome analyses in transgenerational model of substance use predisposition
 
-# Outline of of the code:
+# Outline of of the main code:
 These code folders are organized in roughly order of operations. The snRNA-seq data are clustered first, then they are used to aid snATAC-seq clustering. The differentially expressed gene analyses are done after the snRNA-seq clustering. The LD score regression (GWAS enrichment) analyses are done afte rthe snATAC-seq clustering.  
 [code/raw_code/preprocess_snATAC](code/raw_code/preprocess_snATAC)
 - code to make snATAC and snRNA raw files
@@ -22,3 +22,13 @@ These code folders are organized in roughly order of operations. The snRNA-seq d
 
 [code/raw_code/ldsc_rat_snATAC](code/raw_code/ldsc_rat_snATAC)
 - Stratified Linkage-Disequilibrium Score Regression (S-LDSC) analyses using the peaks mapped to hg38 coordinates
+
+
+# Outline of of the supporting code directories:
+[code/final_code/HeKleyman2021_macaque_striatum_data_processing](code/final_code/HeKleyman2021_macaque_striatum_data_processing)
+- Downloads the He, Kleyman et al. snRNA-seq reference dataset. Subset the data to the NAc and recluster using sctransform and Seurat v4 integration methods
+- Maps the monkey orthologs human genes used in this dataset to map to 1-1 mouse gene orthologs as defined by ENSEMBL.
+- produces the files `GSE167920_Results_full_nuclei_processed_final_NAc.mmGenes.h5Seurat` and `GSE167920_Results_MSNs_processed_final_NAc.mmGenes.h5Seurat` used in the snRNA-seq guided cell type annotations
+
+[code/final_code/hal_scripts/narrowPeakFunctions.R](code/final_code/hal_scripts/narrowPeakFunctions.R)
+- Wrapper functions to facilitate mapping narrowPeak files between genome versions and cleaning up ArchR reproducible peaks

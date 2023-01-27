@@ -160,11 +160,10 @@ df_wide = df %>% dplyr::select(-c(pct.1, pct.2)) %>%
               values_from = c(p_val:p_val_bonf)) %>% 
   mutate(
     ## calculate strength of DEG of stimulant vs. 
-    effect_Met = -log10(p_val_Met_vs_Sal) * avg_log2FC_Met_vs_Sal,
-    effect_Coc = -log10(p_val_Coc_vs_Sal) * avg_log2FC_Coc_vs_Sal,
+    effect_Met = -log10(p_val_Met_vs_Sal) * sign(avg_log2FC_Met_vs_Sal),
+    effect_Coc = -log10(p_val_Coc_vs_Sal) * sign(avg_log2FC_Coc_vs_Sal),
     ## calculate an interaction score, weighted by AveExpr
-    interaction_MvC = (effect_Met - effect_Coc)/ abs(effect_Met + effect_Coc)) %>% 
-  dplyr::select(-c(effect_Met, effect_Coc)) %>% 
+    interaction_MvC = (effect_Met - effect_Coc)) %>% 
   arrange(desc(abs(interaction_MvC)))
 
 ## list of dataframes of DEGs by cell type
@@ -175,29 +174,36 @@ names(df_list) = names(df_list) %>% make.names()
 alpha = 0.05
 df_interact = df_wide %>% 
   ## one of the vs. saline condition must be significant
-  filter(p_val_bonf_Coc_vs_Sal < alpha | p_val_bonf_Met_vs_Sal < alpha |
-           p_val_bonf_Coc_vs_Sal < alpha) %>% 
+  filter(p_val_bonf_Coc_vs_Sal < alpha  |
+           p_val_bonf_Met_vs_Sal < alpha & 
+           p_val_bonf_Met_vs_Coc < alpha) %>% 
   ## the interaction meth vs. coc must be significant
-  filter(abs(interaction_MvC)>1)
+  filter(abs(interaction_MvC)>1 )
   
 
 ######################################################
 # 6) look at overall trends and export the DEG tables
 ## do some counting of DEGs
 df %>% group_by(group, celltype) %>% 
-  summarise(numDEG = sum(p_val_adj < alpha & abs(avg_log2FC) > .2) ) %>% 
+  summarise(numDEG = sum(p_val_adj < alpha & abs(avg_log2FC) > .1) ) %>% 
   pivot_wider(names_from = 'group', values_from = 'numDEG')
 
 df %>% group_by(group, celltype) %>% 
-  summarise(numDEG = sum(p_val_bonf < alpha & abs(avg_log2FC) > .2) ) %>% 
+  summarise(numDEG = sum(p_val_bonf < alpha & abs(avg_log2FC) > .1) ) %>% 
   pivot_wider(names_from = 'group', values_from = 'numDEG')
 
 table(df_interact$celltype)
-df_interact %>% pull(gene) %>% unique() %>% sort() %>% paste(collapse = ', ')
+df_interact %>% filter(abs(interaction_MvC)>4) %>% group_by(celltype) %>% 
+summarise(numDEG_interact = n())
+
+df_interact %>% filter(abs(interaction_MvC)>4) %>% 
+  filter(!duplicated(gene)) %>% arrange(gene) %>% 
+  pull(gene) %>% paste(collapse = ', ')
+  
 
 saveRDS(df_wide, file = here('data/tidy_data/differential_expression/rdas/diff_gene_3-way_countsplit.rds'))
 dir.create(here('data/tidy_data/differential_expression/tables'), showWarnings = F)
-df_list %>% writexl::write_xlsx(here('data/tidy_data/differential_expression/tables',
+df_wide %>% writexl::write_xlsx(here('data/tidy_data/differential_expression/tables',
                                      'differential_expression_3-way_sires.xlsx'))
 df_interact %>% writexl::write_xlsx(here('data/tidy_data/differential_expression/tables',
                                          'differential_expression_top_interaction_MvC.xlsx'))

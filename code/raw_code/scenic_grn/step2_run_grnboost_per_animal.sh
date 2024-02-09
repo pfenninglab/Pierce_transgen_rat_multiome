@@ -1,15 +1,15 @@
 #!/bin/bash
 #SBATCH -n 1
-#SBATCH --partition=pfen2,pfen3
+#SBATCH --partition=pool1
 #SBATCH --exclude=compute-1-11,compute-1-5,compute-1-35,compute-4-9
-##SBATCH --time 3-00:00:00
+#SBATCH --time 3-00:00:00
 #SBATCH --job-name=grnboost
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=45G
+#SBATCH --mem=23G
 #SBATCH --error=logs/pyscenic_grnboost_%A_%a.txt
 #SBATCH --output=logs/pyscenic_grnboost_%A_%a.txt
-#SBATCH --array=0-24%5
+#SBATCH --array=25-99%5
 
 ###################
 ## 1) set up paths 
@@ -34,9 +34,10 @@ if [[ ! -f $OUTFILE || $(cat $OUTFILE) == '' ]]; then
 arboreto_with_multiprocessing.py \
 -o ${OUTFILE} -m grnboost2 \
 --seed ${SLURM_ARRAY_TASK_ID} \
---num_workers 16 \
+--num_workers 8 \
 --cell_id_attribute "CellID" \
 --gene_attribute "Gene" \
 ${EXPRMAT} ${TF_LIST}
 fi
 
+exit

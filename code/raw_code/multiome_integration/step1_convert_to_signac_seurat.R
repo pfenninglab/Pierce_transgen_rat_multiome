@@ -20,7 +20,7 @@ options(future.globals.maxSize = 60 * 1024^3)
 ## 1) load in the Seurat object
 obj = here::here('data/tidy_data/Seurat_projects',
                  "Rat_transgen_multiomeRNA_refined_all_SeuratObj_N5.h5Seurat") %>% 
-  LoadH5Seurat()
+  LoadH5Seurat(assay = 'RNA')
 
 obj = RenameCells(obj, new.names = ss(colnames(obj), '_', 2))
 head(colnames(obj))
@@ -28,7 +28,7 @@ head(colnames(obj))
 ##############################
 ## 2) load in the ArchR project
 addArchRThreads(threads = 8)
-PROJDIR=here::here("data/tidy_data/ArchRProjects/Rat_Transgen_NAc_scATAC_clusterRat")
+PROJDIR=here::here("data/tidy_data/ArchRProjects/Rat_Transgen_NAc_multiome")
 proj = loadArchRProject(path = PROJDIR)
 
 # 10959 cells have both ATAC and RNA profiles
